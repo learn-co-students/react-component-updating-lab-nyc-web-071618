@@ -4,17 +4,26 @@ class Timer extends Component {
 
   constructor() {
     super()
-    this.timer = React.createRef()
+    this.timer = React.createRef()//this.timer, is initialized in the constructor
     this.state = {
         time: 0,
         color: '#'+Math.floor(Math.random()*16777215).toString(16),
     }
   }
 
-
-
   //Your code here
+  componentDidUpdate() { //write componentDidUpdate within Timer
+    this.timer.current.style.color = '#'+Math.floor(Math.random()*16777215).toString(16) //visual cue for update occurence
 
+  }
+
+  //Write a shouldComponentUpdate method in Timer
+  shouldComponentUpdate(nextProps, nextState){
+    if (this.state.time === nextState.time) {
+      return false
+    }
+    return true//update only when this.state.time changes
+  }
 
 
   componentDidMount() {
@@ -25,7 +34,7 @@ class Timer extends Component {
     clearInterval(this.interval)
   }
 
-  render() {
+  render() {//attribute ref is added to JSX element
     const { time, color, className, logText } = this.state
     return (
       <section className="Timer" style={{background: color}} ref={this.timer}>
